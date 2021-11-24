@@ -1,22 +1,31 @@
 import numpy as np
 
-def first_joy(l1):
-    return np.array([0,0,l1])
+class Artic_Robot():
+    def __init__(self,link1,link2,link3):
+        self.link1 = link1
+        self.link2 = link2
+        self.link3 = link3
 
-def second_joy(l1,l2,th1,th2):
-    return np.array([
-        l2*np.cos(th1)*np.cos(th2),
-        l2*np.cos(th2)*np.sin(th1),
-        l1 + l2*np.sin(th2)
-    ])
+    @property
+    def first_joy(self):
+        return np.array([0,0,self.link3])
 
-def third_joy(l1,l2,l3,th1,th2,th3):
-    return np.array([
-        np.cos(th1)*(l3*np.cos(th2 + th3) + l2*np.cos(th2)),
-        np.sin(th1)*(l3*np.cos(th2 + th3) + l2*np.cos(th2)),
-        l1 + l3*np.sin(th2 + th3) + l2*np.sin(th2)
+    def second_joy(self,th1,th2):
+        return np.array([
+            self.link2*np.cos(th1)*np.cos(th2),
+            self.link2*np.cos(th2)*np.sin(th1),
+            self.link1 + self.link2*np.sin(th2)
+        ])
 
-    ])
+    def third_joy(self,th1,th2,th3):
+        return np.array([
+            np.cos(th1)*(self.link3*np.cos(th2 + th3) + self.link2*np.cos(th2)),
+            np.sin(th1)*(self.link3*np.cos(th2 + th3) + self.link2*np.cos(th2)),
+            self.link1 + self.link3*np.sin(th2 + th3) + self.link2*np.sin(th2)
 
-j3 = third_joy(50,100,100,np.pi,np.pi/2,np.pi)
-print(j3)
+        ])
+
+robo = Artic_Robot(50,50,50)
+print(robo.first_joy)
+print(robo.second_joy(90,90))
+print(robo.third_joy(90,90,90))
