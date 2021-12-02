@@ -35,6 +35,9 @@ class Plot_Robo(Artic_Robot):
         j_1 = self.first_joy
         j_2 = self.second_joy(self.th1,self.th2)
         j_3 = self.third_joy(self.th1,self.th2,self.th3)
+        
+        #criar uma reta entre as juntas 
+
         plt.rcParams['figure.figsize'] = (8,6)
         ax = plt.axes(projection='3d');
         ax.scatter3D([j_1[0],j_2[0],j_3[0]],
