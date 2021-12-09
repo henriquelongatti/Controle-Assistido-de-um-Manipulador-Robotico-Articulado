@@ -34,6 +34,7 @@ class Artic_Robot():
 class Plot_Robo(Artic_Robot):
 
     def plot(self):
+
         j_1 = self.first_joy
         j_2 = self.second_joy(self.th1,self.th2)
         j_3 = self.third_joy(self.th1,self.th2,self.th3)
@@ -42,20 +43,51 @@ class Plot_Robo(Artic_Robot):
         l2 = ga.reta(j_1,j_2,50)
         l3 = ga.reta(j_2,j_3,50)
 
-        plt.rcParams['figure.figsize'] = (8,6)
+        #plt.rcParams['figure.figsize'] = (8,6)
         ax = plt.axes(projection='3d');
+        ax.set_xlim(-3,3)
+        ax.set_ylim(-3,3)
+        ax.set_zlim(-3,3)
         ax.scatter3D([j_1[0],j_2[0],j_3[0]],
                     [j_1[1],j_2[1],j_3[1]],
-                    [j_1[2],j_2[2],j_3[2]],s=1000); 
+                    [j_1[2],j_2[2],j_3[2]],s=100); 
 
         ax.plot(l1[:,0],l1[:,1],l1[:,2])
         ax.plot(l2[:,0],l2[:,1],l2[:,2])
         ax.plot(l3[:,0],l3[:,1],l3[:,2])
+
+        
+        #ax.view_init(azim=90,elev=90)
    
-        plt.show()
+        #plt.show()
 
 
-robo = Plot_Robo(0.5,0.5,0.5,30,0,0)
-robo.plot()
+def test_joy1():
+    robo = Plot_Robo(1,1,1,0,0,np.pi/2)
+    for d in np.arange(0,2*np.pi,0.1):
+        robo.th1 = d
+        robo.plot()
+        plt.close
+        plt.pause(0.001)
+    plt.show()
+
+def test_joy2():
+    robo = Plot_Robo(1,1,1,0,0,np.pi/2)
+    for d in np.arange(0,2*np.pi,0.1):
+        robo.th2 = d
+        robo.plot()
+        plt.close
+        plt.pause(0.001)
+    plt.show()
+
+def test_joy3():
+    robo = Plot_Robo(1,1,1,0,0,np.pi/2)
+    for d in np.arange(0,2*np.pi,0.1):
+        robo.th3 = d
+        robo.plot()
+        plt.close
+        plt.pause(0.001)
+    plt.show()
 
 
+test_joy3()
