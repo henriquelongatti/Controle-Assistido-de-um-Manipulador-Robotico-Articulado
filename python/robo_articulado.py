@@ -5,6 +5,9 @@ import geometria_alalitica as ga
 
 class Artic_Robot():
     'Robô Articulado'
+    """
+    Os valores de angulos dos robôs devem estar no intervalos de 0 a 2pi
+    """
     def __init__(self,link1,link2,link3,th1,th2,th3):
         self.link1 = link1
         self.link2 = link2
@@ -18,18 +21,55 @@ class Artic_Robot():
         return np.array([0,0,self.link3])
 
     def second_joy(self,th1,th2):
-        return np.array([
-            self.link2*np.cos(th1)*np.cos(th2),
-            self.link2*np.cos(th2)*np.sin(th1),
-            self.link1 + self.link2*np.sin(th2)
-        ])
+        
+        if (self.th2 >= 0 and self.th2  <= (7/6)* np.pi)or(self.th2 > (11/6)*np.pi and self.th2 < 2*np.pi):
+            return np.array([
+                self.link2*np.cos(self.th1)*np.cos(self.th2),
+                self.link2*np.cos(self.th2)*np.sin(self.th1),
+                self.link1 + self.link2*np.sin(self.th2)
+            ])
+        else:
+            if self.th2 < (3/2)*np.pi:
+                self.th2 = (7/6)*np.pi
+                return np.array([
+                    self.link2*np.cos(self.th1)*np.cos(self.th2),
+                    self.link2*np.cos(self.th2)*np.sin(self.th1),
+                    self.link1 + self.link2*np.sin(self.th2)
+                ])
+            else:
+                self.th2 = (11/6)* np.pi
+                return np.array([
+                    self.link2*np.cos(self.th1)*np.cos(self.th2),
+                    self.link2*np.cos(self.th2)*np.sin(self.th1),
+                    self.link1 + self.link2*np.sin(self.th2)
+                ])
+
+        
 
     def third_joy(self,th1,th2,th3):
-        return np.array([
-            np.cos(th1)*(self.link3*np.cos(th2 + th3) + self.link2*np.cos(th2)),
-            np.sin(th1)*(self.link3*np.cos(th2 + th3) + self.link2*np.cos(th2)),
-            self.link1 + self.link3*np.sin(th2 + th3) + self.link2*np.sin(th2)
-        ])
+
+        if (self.th3 >= 0 and self.th3  <= (2/3)* np.pi)or(self.th3 > (4/3)*np.pi and self.th3 < 2*np.pi):
+            return np.array([
+                np.cos(self.th1)*(self.link3*np.cos(self.th2 + self.th3) + self.link2*np.cos(self.th2)),
+                np.sin(self.th1)*(self.link3*np.cos(self.th2 + self.th3) + self.link2*np.cos(self.th2)),
+                self.link1 + self.link3*np.sin(self.th2 + self.th3) + self.link2*np.sin(self.th2)
+                ])
+        else:
+            if self.th3 < np.pi:
+                self.th3 = (2/3)*np.pi
+                return np.array([
+                    np.cos(self.th1)*(self.link3*np.cos(self.th2 + self.th3) + self.link2*np.cos(self.th2)),
+                    np.sin(self.th1)*(self.link3*np.cos(self.th2 + self.th3) + self.link2*np.cos(self.th2)),
+                    self.link1 + self.link3*np.sin(self.th2 + self.th3) + self.link2*np.sin(self.th2)
+                ])
+            else:
+                self.th3 = (4/3)*np.pi
+                return np.array([
+                    np.cos(self.th1)*(self.link3*np.cos(self.th2 + self.th3) + self.link2*np.cos(self.th2)),
+                    np.sin(self.th1)*(self.link3*np.cos(self.th2 + self.th3) + self.link2*np.cos(self.th2)),
+                    self.link1 + self.link3*np.sin(self.th2 + self.th3) + self.link2*np.sin(self.th2)
+                ])
+
 
 class Plot_Robo(Artic_Robot):
 
@@ -43,7 +83,7 @@ class Plot_Robo(Artic_Robot):
         l2 = ga.reta(j_1,j_2,50)
         l3 = ga.reta(j_2,j_3,50)
 
-        #plt.rcParams['figure.figsize'] = (8,6)
+        plt.rcParams['figure.figsize'] = (8,6)
         ax = plt.axes(projection='3d');
         ax.set_xlim(-3,3)
         ax.set_ylim(-3,3)
@@ -89,5 +129,6 @@ def test_joy3():
         plt.pause(0.001)
     plt.show()
 
-
 test_joy3()
+
+#plt.show
