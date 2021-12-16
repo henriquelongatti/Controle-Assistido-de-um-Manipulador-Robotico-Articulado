@@ -6,7 +6,9 @@ import geometria_alalitica as ga
 class Artic_Robot():
     'Robô Articulado'
     """
-    Os valores de angulos dos robôs devem estar no intervalos de 0 a 2pi
+    Essa classe cria um robô articulado de três juntas. Ela usa transformações Homogêneas 
+    para calcular todas suas posições.
+    Os valores de angulos das juntas do robô devem estar no intervalos de 0 a 2pi
     """
     def __init__(self,link1,link2,link3,th1,th2,th3):
         self.link1 = link1
@@ -21,7 +23,10 @@ class Artic_Robot():
         return np.array([0,0,self.link3])
 
     def second_joy(self,th1,th2):
-        
+        """
+        Na segunda junta eu coloquei um limite para evitar colisões entre o próprio robô. O robô
+        não chega nas posições entre 7/6*pi e 11/6*pi.
+        """
         if (self.th2 >= 0 and self.th2  <= (7/6)* np.pi)or(self.th2 > (11/6)*np.pi and self.th2 < 2*np.pi):
             return np.array([
                 self.link2*np.cos(self.th1)*np.cos(self.th2),
@@ -47,6 +52,10 @@ class Artic_Robot():
         
 
     def third_joy(self,th1,th2,th3):
+        """
+        Na terceira junta eu coloquei um limite para evitar colisões entre o próprio robô. O robô
+        não chega nas posições entre 2/3*pi e 4/3*pi.
+        """
 
         if (self.th3 >= 0 and self.th3  <= (2/3)* np.pi)or(self.th3 > (4/3)*np.pi and self.th3 < 2*np.pi):
             return np.array([
@@ -72,7 +81,10 @@ class Artic_Robot():
 
 
 class Plot_Robo(Artic_Robot):
-
+    """
+    Essa classe é usada apenas para testes. Ela herda da classe Artic_Robot e faz uma simulação
+    do comportamento do robô.
+    """
     def plot(self):
 
         j_1 = self.first_joy
@@ -103,6 +115,9 @@ class Plot_Robo(Artic_Robot):
 
 
 def test_joy1():
+    """
+    Testa a primeira junta do robô para os valores entre 0 a 2*pi e mostra seu comportamento.
+    """
     robo = Plot_Robo(1,1,1,0,0,np.pi/2)
     for d in np.arange(0,2*np.pi,0.1):
         robo.th1 = d
@@ -112,6 +127,9 @@ def test_joy1():
     plt.show()
 
 def test_joy2():
+    """
+    Testa a segunda junta do robô para os valores entre 0 a 2*pi e mostra seu comportamento.
+    """
     robo = Plot_Robo(1,1,1,0,0,np.pi/2)
     for d in np.arange(0,2*np.pi,0.1):
         robo.th2 = d
@@ -121,6 +139,9 @@ def test_joy2():
     plt.show()
 
 def test_joy3():
+    """
+    Testa a terceira  junta do robô para os valores entre 0 a 2*pi e mostra seu comportamento.
+    """
     robo = Plot_Robo(1,1,1,0,0,np.pi/2)
     for d in np.arange(0,2*np.pi,0.1):
         robo.th3 = d
@@ -129,6 +150,7 @@ def test_joy3():
         plt.pause(0.001)
     plt.show()
 
+test_joy1()
+test_joy2()
 test_joy3()
 
-#plt.show
