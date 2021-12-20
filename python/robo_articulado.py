@@ -150,7 +150,7 @@ def test_joy3():
         plt.pause(0.001)
     plt.show()
 
-test_joy1()
-test_joy2()
-test_joy3()
+#test_joy1()
+#test_joy2()
+#test_joy3()
 
