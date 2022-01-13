@@ -22,7 +22,8 @@ class Artic_Robot():
     def first_joy(self):
         return np.array([0,0,self.link3])
 
-    def second_joy(self,th1,th2):
+    
+    def second_joy(self):
         """
         Na segunda junta eu coloquei um limite para evitar colisões entre o próprio robô. O robô
         não chega nas posições entre 7/6*pi e 11/6*pi.
@@ -50,8 +51,8 @@ class Artic_Robot():
                 ])
 
         
-
-    def third_joy(self,th1,th2,th3):
+    
+    def third_joy(self):
         """
         Na terceira junta eu coloquei um limite para evitar colisões entre o próprio robô. O robô
         não chega nas posições entre 2/3*pi e 4/3*pi.
@@ -88,8 +89,8 @@ class Plot_Robo(Artic_Robot):
     def plot(self):
 
         j_1 = self.first_joy
-        j_2 = self.second_joy(self.th1,self.th2)
-        j_3 = self.third_joy(self.th1,self.th2,self.th3)
+        j_2 = self.second_joy()
+        j_3 = self.third_joy()
         
         l1 = ga.reta([0,0,0],j_1)
         l2 = ga.reta(j_1,j_2,50)
@@ -150,7 +151,11 @@ def test_joy3():
         plt.pause(0.001)
     plt.show()
 
+
+
+
 #test_joy1()
 #test_joy2()
 #test_joy3()
+
 
