@@ -112,7 +112,7 @@ class Plot_Robo(Artic_Robot):
         
         #ax.view_init(azim=90,elev=90)
    
-        #plt.show()
+        plt.show()
 
 
 def test_joy1():
