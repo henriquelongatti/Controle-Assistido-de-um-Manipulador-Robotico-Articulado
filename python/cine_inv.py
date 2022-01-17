@@ -1,7 +1,7 @@
 import robo_articulado as ra
 import numpy as np
 import matplotlib.pyplot as plt
-
+import geometria_analitica as ga
 
 # Em python eu posso passar um objeto como um parametro de uma função!    
 def jacobiano(robo):
@@ -46,12 +46,26 @@ def cine_inv(robo,G):
     robo.th3 = Theta[2]
 
         
+def test_reta():
+    """
+    robo desenha uma reta
+    """
+    Robo = ra.Plot_Robo(1,1,1,0,0,0)
+    reta = ga.reta(np.array([1,1,0]),np.array([1,1,1]),20)
+    for p in reta:
+        cine_inv(Robo,p)
+        Robo.plot()
+        plt.close
+        plt.pause(0.001)
+    plt.show()
+
+test_reta()
 
 
 
-
-G = np.array([-1.0000000e+00, -0.0000000e+00 , 1.2246468e-16])
-
+"""
+#G = np.array([-1.0000000e+00, -0.0000000e+00 , 1.2246468e-16])
+G = np.array([-1,-1,0])
 
 Robo = ra.Plot_Robo(1,1,1,0,0,0)
 Robo.plot()
@@ -59,3 +73,4 @@ plt.close
 cine_inv(Robo,G)
 Robo.plot()
 #plt.show
+"""
