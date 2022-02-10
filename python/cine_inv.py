@@ -2,6 +2,9 @@ import robo_articulado as ra
 import numpy as np
 import matplotlib.pyplot as plt
 import geometria_analitica as ga
+import time
+
+
 
 # Em python eu posso passar um objeto como um parametro de uma função!    
 def jacobiano(robo):
@@ -23,7 +26,7 @@ def cine_inv(robo,G):
     P_J3 = robo.third_joy()
     Theta = np.array([robo.th1,robo.th2,robo.th3]) 
     EQM = np.mean((G - P_J3)**2)
-    
+    t = time.time_ns()
     while EQM > ksi:
         GradEQM = -(G - P_J3)
         J = jacobiano(robo)
@@ -40,37 +43,37 @@ def cine_inv(robo,G):
 
         P_J3 = robo.third_joy()
         EQM = np.mean((G - P_J3)**2)
+        tempo = time.time_ns()- t
+        if tempo > 2* 9848623:
+            break
+    
 
     robo.th1 = Theta[0]
     robo.th2 = Theta[1]
     robo.th3 = Theta[2]
 
         
-def test_reta():
+def test_reta(p1,p2):
     """
     robo desenha uma reta
     """
     Robo = ra.Plot_Robo(1,1,1,0,0,0)
-    reta = ga.reta(np.array([1,1,0]),np.array([1,1,1]),20)
+    reta = ga.reta(p1,p2,20)
+    cine_inv(Robo,p1)
+    Robo.plot(0.8)
     for p in reta:
         cine_inv(Robo,p)
-        Robo.plot()
+        Robo.plot(0.1)
         plt.close
-        plt.pause(0.001)
+        plt.pause(0.1)
+    Robo.plot(0.8)
     plt.show()
 
-test_reta()
+p1 = np.array([-1,1,0])
+p2 = np.array([1,1,2])
+test_reta(p1,p2)
 
 
 
-"""
-#G = np.array([-1.0000000e+00, -0.0000000e+00 , 1.2246468e-16])
-G = np.array([-1,-1,0])
 
-Robo = ra.Plot_Robo(1,1,1,0,0,0)
-Robo.plot()
-plt.close
-cine_inv(Robo,G)
-Robo.plot()
-#plt.show
-"""
+
